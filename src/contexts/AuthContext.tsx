@@ -25,6 +25,8 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
+import { Organisation, UserOrganisationView } from "@/types/organisations";
+import { fetchUserOrganisations } from "@/lib/organisations";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 // `app_role` enum in the database has exactly two values. Mirroring it as a
@@ -48,8 +50,11 @@ interface AuthContextValue {
   user: User | null;              // Convenience: session?.user
   profile: Profile | null;        // Row from public.profiles, or null
   role: AppRole | null;           // 'tenant' | 'landlord' | null (not chosen yet)
+  organisations: UserOrganisationView[]; // All orgs user owns/belongs to
+  currentOrg: Organisation | null; // Currently selected organisation
   loading: boolean;               // True until the FIRST auth check completes
   refreshProfile: () => Promise<void>; // Re-fetch profile + role on demand
+  switchOrg: (org_id: string) => void; // Switch to a different organisation
   signOut: () => Promise<void>;
 }
 
@@ -61,6 +66,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser]       = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [role, setRole]       = useState<AppRole | null>(null);
+  const [organisations, setOrganisations] = useState<UserOrganisationView[]>([]);
+  const [currentOrg, setCurrentOrg] = useState<Organisation | null>(null);
   const [loading, setLoading] = useState(true);
 
   /**
@@ -79,9 +86,55 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setRole((r?.role as AppRole) ?? null);
   };
 
+  /**
+   * Fetch all organisations a user owns or belongs to.
+   * Sets the first org as current by default (can be overridden with switchOrg).
+   */
+  const loadUserOrganisations = async (uid: string) => {
+    const orgs = await fetchUserOrganisations(uid);
+    setOrganisations(orgs);
+
+    if (orgs.length > 0) {
+      // Fetch full org details for the first org
+      const { data: orgData } = await supabase
+        .from("organisations")
+        .select("*")
+        .eq("id", orgs[0].org_id)
+        .single();
+
+      if (orgData) {
+        setCurrentOrg(orgData as Organisation);
+      }
+    }
+  };
+
+  /**
+   * Switch to a different organisation.
+   */
+  const switchOrg = (orgId: string) => {
+    const found = organisations.find((o) => o.org_id === orgId);
+    if (found) {
+      supabase
+        .from("organisations")
+        .select("*")
+        .eq("id", orgId)
+        .single()
+        .then(({ data }) => {
+          if (data) {
+            setCurrentOrg(data as Organisation);
+            // Store preference in localStorage for persistence
+            localStorage.setItem("currentOrgId", orgId);
+          }
+        });
+    }
+  };
+
   /** Public helper so screens can refresh after editing the profile. */
   const refreshProfile = async () => {
-    if (user) await loadProfileAndRole(user.id);
+    if (user) {
+      await loadProfileAndRole(user.id);
+      await loadUserOrganisations(user.id);
+    }
   };
 
   useEffect(() => {
@@ -93,11 +146,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (newSession?.user) {
         // Defer to avoid deadlocking the auth client (see header comment).
-        setTimeout(() => loadProfileAndRole(newSession.user.id), 0);
+        setTimeout(() => {
+          loadProfileAndRole(newSession.user.id);
+          loadUserOrganisations(newSession.user.id);
+        }, 0);
       } else {
-        // Logged out → clear cached profile/role so no stale data leaks.
+        // Logged out → clear cached state so no stale data leaks.
         setProfile(null);
         setRole(null);
+        setOrganisations([]);
+        setCurrentOrg(null);
       }
     });
 
@@ -107,7 +165,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setSession(s);
       setUser(s?.user ?? null);
       if (s?.user) {
-        loadProfileAndRole(s.user.id).finally(() => setLoading(false));
+        loadProfileAndRole(s.user.id);
+        loadUserOrganisations(s.user.id).finally(() => setLoading(false));
       } else {
         setLoading(false);
       }
@@ -130,11 +189,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     setProfile(null);
     setRole(null);
+    setOrganisations([]);
+    setCurrentOrg(null);
+    localStorage.removeItem("currentOrgId");
   };
 
   return (
     <AuthContext.Provider
-      value={{ session, user, profile, role, loading, refreshProfile, signOut }}
+      value={{
+        session,
+        user,
+        profile,
+        role,
+        organisations,
+        currentOrg,
+        loading,
+        refreshProfile,
+        switchOrg,
+        signOut,
+      }}
     >
       {children}
     </AuthContext.Provider>

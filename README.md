@@ -7,13 +7,14 @@ hierarchy; landlords register properties against City Corporation tax keys
 feedback and an automatically-generated rental history.
 
 > **Stack** — React 18 · TypeScript · Vite · Tailwind CSS · shadcn/ui ·
-> **Backend** — Lovable Cloud (managed Postgres + Auth + Storage + Realtime)
+> **Backend** —Cusotm Tax Algorithm(Slab350X) || MinAdv-109V(Section-109-Gov)  Supabase (managed Postgres + Auth + Storage + Realtime)
 
 ---
 
 ## 1. Features
 
 ### Shared
+
 - Email + password and Google sign-in (managed OAuth — no client setup needed)
 - Role-based onboarding (Tenant / Landlord) with a separate `user_roles` table
 - Editable profile (name, phone, avatar, bio, copyable User ID)
@@ -24,13 +25,13 @@ feedback and an automatically-generated rental history.
 - Printable receipts with structured BD address and Google Maps link
 - Tanant rental history visible to landlords for trust; landlord lookup by tenant User ID
 - Mobile hamburger nav + responsive layouts
-- 
 - Digital deal flow: propose → accept / reject → pay → branded receipt
 - Monthy billing cycle with auto-generated rental history (visible to landlords for trust)
 - Printable receipts with structured BD address and Google Maps link
 - Mobile hamburger nav + responsive layouts
 
 ### Tenant
+
 - Browse all active listings; filter by type, price, search text
 - **"Near me"** mode — listings sorted by Haversine distance from GPS
 - **"By location"** mode — Division / District / Thana cascading filters
@@ -40,6 +41,7 @@ feedback and an automatically-generated rental history.
 - Auto-generated rental history (visible to landlords for trust)
 
 ### Landlord
+
 - Dashboard with earnings + deal stats
 - Register / edit / hide / delete listings using the full BD schema:
   - **Section 1** Administrative — Division, District, City Corp (DNCC/DSCC),
@@ -56,6 +58,7 @@ feedback and an automatically-generated rental history.
 
 | Path | Access | Purpose |
 |------|--------|---------|
+
 | `/` | public | Landing — choose Tenant or Landlord |
 | `/auth` | public | Sign in / sign up (email + Google) |
 | `/onboarding` | auth | Pick role after first sign-in |
@@ -82,6 +85,7 @@ feedback and an automatically-generated rental history.
 
 | Table | Purpose | RLS summary |
 |-------|---------|-------------|
+
 | `profiles` | Per-user profile (name, phone, avatar, bio) | Read by all auth users; write own only |
 | `user_roles` | `tenant` / `landlord` (separate table — never on profile, prevents privilege escalation) | Insert/read own only |
 | `listings` | Properties with full BD schema (16 address fields + lat/lng) | Public read of `is_active`; write own (landlord-role) |
@@ -95,6 +99,7 @@ feedback and an automatically-generated rental history.
 | `feedback` | Peer reviews | Author reads own; **same-role peers** read others |
 
 ### Key SQL helpers
+
 - `has_role(uid, role)` — `SECURITY DEFINER` predicate used by all role-aware RLS policies (avoids recursive RLS).
 - `get_tenant_rental_history(tenant_id)` — RPC returning a tenant's completed payments. Callable by the tenant themselves OR by any landlord (for trust verification).
 - Storage bucket **`kyc-docs`** (private) — folder-scoped RLS so each user only accesses their own folder.
@@ -103,7 +108,6 @@ feedback and an automatically-generated rental history.
 
 ## 4. Project layout
 
-```
 src/
 ├── assets/                       # Brand images
 ├── components/
@@ -126,7 +130,6 @@ src/
     ├── Messages, Payment, Receipt
     └── NotFound
 supabase/                         # Auto-managed migrations + config
-```
 
 ---
 
@@ -152,6 +155,7 @@ bun run dev
 
 Lovable Cloud is connected automatically — `.env`, the Supabase client, and
 the generated TypeScript types are all managed for you. **Never hand-edit:**
+
 - `src/integrations/supabase/client.ts`
 - `src/integrations/supabase/types.ts`
 - `.env`
