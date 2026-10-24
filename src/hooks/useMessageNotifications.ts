@@ -96,7 +96,7 @@ export function useMessageNotificationsRoot() {
           // Fire a browser-level notification if permission granted.
           if (typeof Notification !== "undefined" && Notification.permission === "granted") {
             try {
-              new Notification(`Smart Thikana — ${name}`, {
+              new Notification(`Basha Vhara Koto — ${name}`, {
                 body: msg.content.slice(0, 120),
                 icon: "/placeholder.svg",
                 tag: msg.conversation_id, // collapses repeats from the same convo

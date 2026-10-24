@@ -65,7 +65,7 @@ export default function Receipt() {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <Building2 className="h-6 w-6 text-primary" />
-              <h1 className="text-xl font-display font-bold text-slate-900 uppercase tracking-tight">Smart Thikana</h1>
+              <h1 className="text-xl font-display font-bold text-slate-900 uppercase tracking-tight">Basha Vhara Koto</h1>
             </div>
             <p className="text-xs font-medium text-slate-500 uppercase tracking-widest text-wrap">Digital Rent Receipt Section 38 Compliant</p>
           </div>

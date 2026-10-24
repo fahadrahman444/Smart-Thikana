@@ -14,7 +14,7 @@ export default function Footer() {
             <div className="grid h-9 w-9 place-items-center rounded-md bg-gradient-hero">
               <Building2 className="h-5 w-5 text-primary-foreground" />
             </div>
-            <span className="font-display text-lg font-bold text-primary">Smart Thikana</span>
+            <span className="font-display text-lg font-bold text-primary">Basha Vhara Koto</span>
           </div>
           <p className="text-sm text-muted-foreground max-w-md">
             A trusted house rental platform connecting tenants with verified landlords across Bangladesh.
@@ -40,7 +40,7 @@ export default function Footer() {
       </div>
       <div className="border-t">
         <div className="container py-4 text-xs text-muted-foreground flex flex-col sm:flex-row justify-between gap-2">
-          <p>© {new Date().getFullYear()} Smart Thikana. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Basha Vhara Koto. All rights reserved.</p>
           <p>Designed for everyone, everywhere in Bangladesh.</p>
         </div>
       </div>

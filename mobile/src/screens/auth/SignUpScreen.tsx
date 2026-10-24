@@ -79,7 +79,7 @@ export function SignUpScreen() {
             marginBottom: 32,
           }}
         >
-          Join Smart Thikana today
+          Join Basha Vhara Koto today
         </Text>
 
         <View style={{ flexDirection: "row", gap: 8, marginBottom: 24 }}>

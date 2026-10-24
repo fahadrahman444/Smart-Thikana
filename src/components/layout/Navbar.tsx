@@ -58,7 +58,7 @@ export default function Navbar() {
             <Building2 className="h-5 w-5 text-primary-foreground" />
           </div>
           <div className="flex flex-col leading-tight">
-            <span className="font-display text-lg font-bold text-primary">Smart Thikana</span>
+            <span className="font-display text-lg font-bold text-primary">Basha Vhara Koto</span>
             <span className="text-[10px] uppercase tracking-widest text-muted-foreground">Trusted Rentals</span>
           </div>
         </Link>

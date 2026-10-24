@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Smart Thikana",
-    "slug": "smart-thikana",
+    "name": "Basha Vhara Koto",
+    "slug": "basha-vhara-koto",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,19 +12,19 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.smartthikana.app",
+      "bundleIdentifier": "com.bashaVharaKoto.app",
       "infoPlist": {
-        "NSCameraUsageDescription": "Smart Thikana needs camera access to capture photos for your listing and KYC (identity verification).",
-        "NSPhotoLibraryUsageDescription": "Smart Thikana needs photo library access to upload images for your listing and profile.",
-        "NSLocationWhenInUseUsageDescription": "Smart Thikana needs your location to show nearby rental listings.",
-        "NSFaceIDUsageDescription": "Smart Thikana uses Face ID to securely unlock the app."
+        "NSCameraUsageDescription": "Basha Vhara Koto needs camera access to capture photos for your listing and KYC (identity verification).",
+        "NSPhotoLibraryUsageDescription": "Basha Vhara Koto needs photo library access to upload images for your listing and profile.",
+        "NSLocationWhenInUseUsageDescription": "Basha Vhara Koto needs your location to show nearby rental listings.",
+        "NSFaceIDUsageDescription": "Basha Vhara Koto uses Face ID to securely unlock the app."
       }
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#006A4E"
       },
-      "package": "com.smartthikana.app",
+      "package": "com.bashaVharaKoto.app",
       "permissions": [
         "CAMERA",
         "READ_EXTERNAL_STORAGE",
@@ -39,6 +39,6 @@
       "expo-notifications",
       "expo-secure-store"
     ],
-    "scheme": "smartthikana"
+    "scheme": "bashaVharaKoto"
   }
 }

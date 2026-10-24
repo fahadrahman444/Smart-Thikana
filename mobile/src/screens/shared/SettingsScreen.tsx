@@ -50,7 +50,7 @@ export function SettingsScreen() {
 
         <View style={{ alignItems: "center", marginTop: 16 }}>
           <Text style={{ fontSize: typography.fontSize.xs, color: colors.mutedForeground }}>
-            Smart Thikana v1.0.0
+            Basha Vhara Koto v1.0.0
           </Text>
           <Text style={{ fontSize: typography.fontSize.xs, color: colors.mutedForeground, marginTop: 2 }}>
             Trusted Rentals in Bangladesh

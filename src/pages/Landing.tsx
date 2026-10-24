@@ -40,7 +40,7 @@ export default function Landing() {
               <br />or list one with <span className="text-accent">trust</span>.
             </h1>
             <p className="mt-5 text-lg text-muted-foreground max-w-xl">
-              Smart Thikana is the modern way to rent — connect directly with verified landlords or
+              Basha Vhara Koto is the modern way to rent — connect directly with verified landlords or
               tenants, agree on terms in chat, and pay securely with a digital receipt.
             </p>
 

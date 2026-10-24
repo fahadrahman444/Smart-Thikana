@@ -44,7 +44,7 @@ export function WelcomeScreen() {
                 textAlign: "center",
               }}
             >
-              Smart Thikana
+              Basha Vhara Koto
             </Text>
             <Text
               style={{
